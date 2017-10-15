@@ -1,0 +1,126 @@
+<div data-ng-controller="createClientServiceController">
+	<div>
+		<ul class="breadcrumb">
+	    	<li>
+		 	   <table>
+		        	<tr>
+				        <td style="width:80px">
+				         	<img data-ng-hide="imagePresent" src="../app/images/blank_avatar.jpg" alt="Avatar" width="40">
+				          	<img data-ng-show="imagePresent" src="{{image}}" alt="Avatar" width="40">
+				        </td>
+				        <td style="width:180px">
+				            <small style="color:black;">{{displayName}}</small>
+				            &nbsp;
+				            <i class="icon-circle {{statusActive | StatusLookup}}"></i>
+				        </td>
+		       			<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        		<td><small>{{'label.accountno' | translate}}&nbsp;<strong>{{accountNo}}</strong></small></td>
+					        	</tr>
+					        	<tr>
+					        	    <td><small>{{'label.cellphone' | translate}}&nbsp;<strong>{{phone}}</strong></small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        		<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        	   <td><i class="icon-building"></i><small>{{'label.office' | translate}}&nbsp;"<strong>{{officeName}}</strong>"</small></td>
+					        	</tr>
+					        	<tr>
+					        	<td><small>{{'label.device#' | translate}} <strong>{{hwSerialNumber}}</strong></small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        		<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        		<td><small>{{'link.clienttype' | translate}}&nbsp;"<strong>{{categoryType}}</strong>"</small></td>
+					        	</tr>
+					        	<tr>
+					        		<td><small>{{'label.balance' | translate}}&nbsp;<strong>{{balanceAmount}}</strong>&nbsp;{{currency}} </small></td>
+					        		<td class="paddedleft0" data-ng-show="walletConfig"><small>[Wallet&nbsp;<strong>{{walletAmount}}</strong>&nbsp;{{currency}}]</small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        	</tr>
+		        </table>
+	        </li>
+		</ul>
+		<ul class="breadcrumb">
+			<li><a href="#/clients">{{'link.clients' | translate}}</a> <span class="divider">/</span></li>
+			<li><a href="#/viewclient/{{clientId}}" data-ng-click="reset123()">{{'link.view.client' | translate}}</a> <span class="divider">/</span></li>
+			<li class="active">{{'label.client.service' | translate}}</li>
+		</ul>
+	</div>
+	<form class="form-horizontal well">
+		<div class="error" data-ng-show="errorStatus || errorDetails">
+			<label>{{'label.contract.error' | translate}}</label> 
+			<label data-ng-show="errorStatus">{{errorStatus}}</label> 
+			<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate:error.args}}</label>
+		</div>
+		<fieldset>
+			<legend>{{'label.client.service' | translate}}</legend>
+			<table>
+			   <tr>
+			      <td>
+					<div class="control-group">
+						<label class="control-label" for="serviceId">{{'label.addservice' | translate }}&nbsp;<span class="required">*</span></label>
+					    <div class="controls">
+					    	<select id="serviceId" data-ng-model="formData.serviceId" 
+					    			data-ng-options="serviceDatas.id as getBothService(serviceDatas.serviceCode, serviceDatas.serviceDescription) for serviceDatas in serviceData" ng-change="changeServiceFun()">
+							 </select>
+						</div>
+					</div>
+			      </td>
+			   </tr>
+			</table><br/>
+			<!-- <table class="table" ng-if="formData.serviceId">
+               	<tr class="graybg">
+                   	<th>{{'label.service.paramname' | translate}}</th>
+                   	<th>{{'label.service.paramtype' | translate}}</th>
+                   	<th>{{'label.service.paramvalue' | translate}}</th>
+               	</tr>
+                 	<tr class="pointer-main" data-ng-repeat="serviceDetails in serviceDetail | filter:filterText" >
+                 		<td class="pointer">{{serviceDetails.paramName}}</td>
+                 		<td class="pointer" >{{serviceDetails.paramType}}</td>
+                  		<td class="pointer" >{{serviceDetails.paramValue}}</td>
+               	</tr>
+               	<tr><td colspan="8">&nbsp;</td></tr> 
+           	</table> -->
+           	</fieldset>
+           	<fieldset ng-if="formData.serviceId">
+           		<legend>{{'label.details' | translate}}</legend>
+           		<div class="row-fluid">
+                    	<div class="span7">
+                        	<table  width="100%">
+                            	<tr data-ng-repeat="serviceDetails in serviceDetail">
+                              		<td width="35%" ><label class="control-label" style="margin-top:19px;">{{serviceDetails.codeParamName}}</label><br/></td>
+                              		<td width="65%"><br/>
+	                              		<span>
+	                              			<input ng-if="serviceDetails.paramType != 'Combo' && serviceDetails.paramType != 'Boolean' && serviceDetails.paramType != 'Date'" type="text" name="paramValue" data-ng-model="serviceDetails.paramValue"/>
+	                            			<select ng-if="serviceDetails.paramType == 'Combo'" id="paramValue" data-ng-model="serviceDetails.paramValue" 
+									    			data-ng-options="detail.id as detail.mCodeValue for detail in serviceDetails.details">
+											</select>
+											<select ng-if="serviceDetails.paramType == 'Boolean'" id="paramValue" data-ng-model="serviceDetails.paramValue" 
+									    			data-ng-options="paramValue for paramValue in paramValues">
+											</select>
+											<input type="text" ng-if="serviceDetails.paramType == 'Date'" data-datepicker-pop="dd-MMM-yyyy" id="paramValue" data-ng-model="serviceDetails.paramValue"  data-is-open="opened2" min="minDate" max="'2020-06-22'" data-date-disabled="disabled(date, mode)" style="background-color:#FFFFFF;"/>
+	                            		</span>
+                            		</td>
+                            	</tr>
+                          	</table>
+                      	</div>
+                  	</div><br/>
+                  	<div class="offset3">
+		               <a href='#/viewclient/{{clientId}}' ng-click="reset123()"class="btn">Cancel</a>
+		           	   <button id="submit" ng-click="submit()" class="btn btn-primary">Save</button>
+          			</div>
+			</fieldset>
+			
+</form>
+</div>

@@ -1,0 +1,130 @@
+<div data-ng-controller="EditServiceController">
+      <div>
+        <ul class="breadcrumb">
+          <li><a href="#/organization">{{'link.admin.organisation' | translate}}</a> <span class="divider">/</span></li>
+          <li><a href="#/services">{{'label.services' | translate}}</a> <span class="divider">/</span></li>
+          <li><a href="#/viewservice/{{serviceId}}">{{formData.serviceCode}}</a> <span class="divider">/</span></li>
+          <li class="active">{{'label.editservice' | translate}}</li>
+        </ul>
+      </div>
+      <form name="editServiceForm" novalidate="" class="form-horizontal well" data-rc-submit="submit()">
+       <div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	    </div>
+        <fieldset>
+          <legend>{{'label.editservice' | translate}}</legend>
+          
+          <div class="control-group">
+            <label class="control-label" for="serviceCode">{{ 'label.service.servicecode' | translate }}<span class="required" >*</span></label>
+            <div class="controls">
+              <input type="text" name="serviceCode" id="serviceCode" data-ng-model="formData.serviceCode" data-ng-maxlength="{{'code' | CodeValidate }}"/>
+              <!-- <form-validate formName="editServiceForm"  fieldName="serviceCode" maxLenMsg="10 characters"/> -->
+              <span data-ng-show="editServiceForm.serviceCode.$dirty && editServiceForm.serviceCode.$invalid">
+					<small class="error-row" >{{'error.code.definition.length.validation'| translate}}</small>
+			  </span>
+            </div>
+          </div>
+          
+          <div class="control-group">
+            <label class="control-label" for="serviceDescription">{{ 'label.service.servicedescription' | translate }}<span class="required" >*</span></label>
+            <div class="controls">
+              <input type="text" id="serviceDescription" data-ng-model="formData.serviceDescription">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="serviceType">{{ 'label.service.servicetype' | translate }}<span class="required" >*</span></label>
+            <div class="controls">
+               <select data-ng-model="formData.serviceType" data-ng-options="serviceTypes.type as serviceTypes.type for serviceTypes in services"></select>
+            </div>
+          </div>
+
+			<div class="control-group">
+            <label class="control-label" for="serviceCategory">{{ 'label.service.servicecategory' | translate }}<span class="required" >*</span></label>
+            <div class="controls">
+               <select data-ng-model="formData.serviceCategory" data-ng-options="serviceCategory for serviceCategory in serviceCategories"></select>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="serviceStatus">{{ 'label.service.status' | translate }}<span class="required" >*</span></label>
+            <div class="controls">
+              <select data-ng-model="formData.status" data-ng-options="status.value as status.value for status in statuses"></select>
+            </div>
+          </div>
+          
+          
+          <!-- <div class="control-group">
+            <label class="control-label" for="isOptional">{{ 'label.service.isoptional' | translate }}</label>
+            <div class="controls">
+             <label class="checkbox">
+              <input type="checkbox" id="isOptional" data-ng-model="formData.isOptional">
+                </label>
+            </div>
+          </div>
+        
+            <div class="control-group">
+            <label class="control-label" for="isOptional">{{ 'label.service.isautoprovision' | translate }}</label>
+            <div class="controls">
+              <label class="checkbox">
+                <input type="checkbox" id="isOptional" data-ng-model="formData.isAutoProvision">
+              </label>
+            </div>
+          </div> -->
+          
+          
+          <table>
+          	<tr class="control-group">
+                <td>
+                  <h4><label class="control-label">{{ 'label.serviceparameter' | translate }}<span class="required">*</span></label></h4>
+                </td>
+                <td class="blockquoteresult">
+                    <form>
+                     <select data-ng-model="serviceFormData.paramName" data-ng-options="serviceParam.id as serviceParam.mCodeValue for serviceParam in serviceParamsData">
+                      </select>&nbsp;&nbsp;
+                      <select data-ng-model="serviceFormData.paramType" data-ng-options="paramType for paramType in paramTypes" data-ng-change="onAddChangeParam()"></select>
+                      <!-- <input   type="text" data-ng-model="serviceFormData.paramValue" placeholder="{{'label.service.paramvalue' | translate}}"> -->
+                      <span ng-if="serviceFormData.paramType">
+                      	<input ng-if="serviceFormData.paramType != 'Date' && serviceFormData.paramType != 'Boolean'" type="text" data-ng-model="serviceFormData.paramValue" placeholder="{{'label.service.paramvalue' | translate}}">
+	                    <input type="text" ng-if="serviceFormData.paramType == 'Date'" data-datepicker-pop="dd-MMM-yyyy" id="paramValue" data-ng-model="serviceFormData.paramValue"  data-is-open="opened2" min="minDate" max="'2020-06-22'" data-date-disabled="disabled(date, mode)" style="background-color:#FFFFFF;" />
+	                    <select ng-if="serviceFormData.paramType == 'Boolean'" data-ng-model="serviceFormData.paramValue" data-ng-options="paramValue for paramValue in paramValues"></select>
+                      </span>
+                      <a data-ng-click="addService()">&nbsp;<i class="icon-plus icon-white" style="color: #007fff;"></i></a>&nbsp;&nbsp;
+                    </form>
+                    <br><br>
+                  <table class="table fullwidth" data-ng-show="serviceDetailDatas.length>0">
+                    <tr></tr>
+                    <tr class="graybg">
+                      <th>{{'label.service.paramname' | translate}}</th>
+                      <th>{{'label.service.paramtype' | translate}}</th>
+                       <th>{{'label.service.paramvalue' | translate}}</th>
+                    </tr>
+                    <tr data-ng-repeat="serviceDetailData in serviceArray track by $index">
+                      <td><select data-ng-model="serviceDetailData.paramName" data-ng-options="serviceParam.id as serviceParam.mCodeValue for serviceParam in serviceParamsData">
+                      </select>&nbsp;&nbsp;</td>
+                      <td><select data-ng-model="serviceDetailData.paramType" data-ng-options="paramType for paramType in paramTypes" data-ng-change="onAddChangeParam($index)"></select></td>
+                      <!-- <td><input type="text" data-ng-model="serviceDetailData.paramValue" placeholder="{{'label.service.paramvalue' | translate}}"></td> -->
+                      <td>
+	                      <span>
+	                      	<input ng-if="serviceDetailData.paramType != 'Date' && serviceDetailData.paramType != 'Boolean'" type="text" data-ng-model="serviceDetailData.paramValue" placeholder="{{'label.service.paramvalue' | translate}}">
+		                    <input type="text" ng-if="serviceDetailData.paramType == 'Date'" data-datepicker-pop="dd-MMM-yyyy" id="paramValue" data-ng-model="serviceDetailData.paramValue"  data-is-open="opened2" min="minDate" max="'2020-06-22'" data-date-disabled="disabled(date, mode)" style="background-color:#FFFFFF;" />
+		                    <select ng-if="serviceDetailData.paramType == 'Boolean'" data-ng-model="serviceDetailData.paramValue" data-ng-options="paramValue for paramValue in paramValues"></select>
+	                      </span>
+	                  </td>
+                      <td><a data-ng-click="deleteService($index)"><i class="icon-remove icon-white"></i></a></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+           </table>
+          
+          
+          <div class="offset3" style="margin-left:31%;">
+            <a href="#/services"><button id="cancel" type="reset" class="btn">{{'label.cancel' | translate}}</button></a>
+            <button id="submit" type="submit" data-ng-disabled="editServiceForm.$dirty && editServiceForm.$invalid" class="btn btn-primary" >{{'label.save' | translate}}</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>

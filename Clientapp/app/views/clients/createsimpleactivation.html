@@ -1,0 +1,340 @@
+<div ng-controller="CreateSimpleActivationController">
+<form name="createclientform" novalidate class="form-horizontal well" data-ng-submit="submit()">
+	<div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	</div>
+	<fieldset>
+		<legend>Simple Activation</legend>	
+		<div>
+	        <div>
+	            <div>
+	                <div class="activation-collapse" data-ng-click="collapseOthers()">
+	                	<strong>Client Info</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+	                	<span class="pull-right">
+	                		<i class="icon-chevron-up"  data-ng-show="!isCollapsed"></i>
+	                		<i class="icon-chevron-down"  data-ng-show="isCollapsed"></i>
+	                	</span>
+	                </div>
+	            </div><br>
+	            <div>
+		            <div collapse="isCollapsed">
+		            	<table>
+		            		<tr>
+		            			<td>
+		            				<div class="control-group">
+					            		<label class="control-label">{{'label.office' | translate}}<span class="required">*</span></label>
+						            	<div class="controls">
+						                	<select data-ng-model="formData.officeId"  data-ng-options="office.id as office.name for office in offices" data-ng-change="changeOffice(formData.officeId)"></select>
+						              	</div>
+					              	</div>
+				           		 </td>
+				           		 <td>
+				           		 	<div class="control-group">
+						             	<label class="control-label">{{'label.clientcategeory' | translate}}<span class="required">*</span></label>
+						              	<div class="controls">
+						               		<select data-ng-model="formData.clientCategory"  data-ng-options="clientCategoryData.id as clientCategoryData.categoryType for clientCategoryData in clientCategoryDatas" ></select>
+						              	</div>
+					              	</div>
+				           		 </td>
+			           		 </tr>
+			           		 <tr>
+			           		 	<td>
+			           		 		<div class="control-group">
+			           		 			<label class="control-label" for="firstname">{{'lable.fullname' | translate}}<span class="required">*</span></label>
+				           		 		<div class="controls">
+					                		<input type="text" id="firstname" name="firstname" data-ng-model="fullname" data-ng-change="formName(fullname)" data-ng-pattern="/^[a-zA-Z0-9\s]+$/" required data-ng-minlength=3 data-late-Validate/>
+					                		<span  data-ng-show="createclientform.firstname.$invalid">
+					                			<span class="error" data-ng-show="createclientform.firstname.$error.pattern">alphanumeric and spaces only!</span>
+					                   			 <span class="error" data-ng-show="createclientform.firstname.$error.req">
+					                       			 Required Field
+					                    		</span>
+					                    		<span class="error" data-ng-show="createclientform.firstname.$error.minlength && !createclientform.firstname.$error.req">Name is required at least 3 characters</span>
+					                		</span>
+					              		</div>
+					              	</div>
+			           		 	</td>
+			           		 	<td>
+			           		 		<div class="control-group">
+				           		 		<label class="control-label" for="city">{{'label.city/area' | translate}}<span class="required">*</span></label>
+				           		 		<div class="controls">
+					               			 <select data-ng-model="formData.city"  data-ng-options="citi for citi in  cities" data-ng-change="getStateAndCountry(formData.city)" ></select>
+					              		</div>
+					              	</div>
+			           		 	</td>
+			           		 </tr>
+			           		 <tr>
+			           		 	<td>
+			           		 		<div class="control-group">
+				           		 		<label class="control-label" for="phone">{{'label.activation.phone' | translate}}<span class="required">*</span></label>
+				           		 		<div class="controls">
+					               			 <input type="text" id="phone" data-ng-model="formData.phone" data-ng-pattern="/^(?!0+$)\d{1,19}$/"  data-ng-maxlength="10" name="phone" required  data-late-Validate/>
+					               			 <span data-ng-show="createclientform.phone.$invalid">
+						                		 <span class="error" data-ng-show="createclientform.phone.$error.req">Required Field</span>
+					                		</span>
+					           				<span data-ng-show="createclientform.phone.$dirty && createclientform.phone.$invalid">
+					               				<span class="error" data-ng-show="createclientform.phone.$error.pattern">digits only !</span>
+					              			 	<span class="error" data-ng-show="createclientform.phone.$error.maxlength">Exceeded max limit!</span>
+					           				</span>
+					              		</div>
+					              	</div>
+			           		 	</td>
+			           		 	<td>
+			           		 		<div class="control-group">
+				           		 		<label class="control-label" for="email">{{'label.email' | translate}}</label>
+				           		 		<div class="controls">
+					               			<input type="text" id="email" data-ng-model="formData.email"/>
+					              		</div>
+					              	</div>
+			           		 	</td>
+			           		 </tr>
+		           		 </table>
+		            </div>
+		            <!--Client Service Tab  -->
+		            <div>
+            			<div>
+                			<div class="activation-collapse" data-ng-click="collapseclientServiceOthers()">
+                				<strong>Client Service Info</strong>
+                				<span class="pull-right">
+                					<i class="icon-chevron-up"  data-ng-show="!clientServiceCollapsed"></i>
+                					<i class="icon-chevron-down"  data-ng-show="clientServiceCollapsed"></i>
+                				</span>
+                			</div>
+            			</div><br>
+            			<div collapse="clientServiceCollapsed">
+							<table>
+							   <tr>
+							      <td>
+									<div class="control-group">
+										<label class="control-label" for="serviceId">{{'label.addservice' | translate }}&nbsp;<span class="required">*</span></label>
+									    <div class="controls">
+									    	<select id="serviceId" data-ng-model="formData.serviceId" 
+									    			data-ng-options="serviceDatas.id as getBothService(serviceDatas.serviceCode, serviceDatas.serviceDescription) for serviceDatas in serviceData" ng-change="changeServiceFun()">
+											 </select>
+										</div>
+									</div>
+							      </td>
+							   </tr>
+							</table>
+							<fieldset ng-if="formData.serviceId">
+				           		<legend>{{'label.details' | translate}}</legend>
+				           		<div class="row-fluid">
+				                    	<div class="span7">
+				                        	<table  width="100%">
+				                            	<tr data-ng-repeat="serviceDetails in serviceDetail">
+				                              		<td width="35%" ><label class="control-label" style="margin-top:19px;">{{serviceDetails.codeParamName}}</label><br/></td>
+				                              		<td width="65%"><br/>
+					                              		<span>
+					                              			<input ng-if="serviceDetails.paramType != 'Combo' && serviceDetails.paramType != 'Boolean' && serviceDetails.paramType != 'Date'" type="text" name="paramValue" data-ng-model="serviceDetails.paramValue"/>
+					                            			<select ng-if="serviceDetails.paramType == 'Combo'" id="paramValue" data-ng-model="serviceDetails.paramValue" 
+													    			data-ng-options="detail.id as detail.mCodeValue for detail in serviceDetails.details">
+															</select>
+															<select ng-if="serviceDetails.paramType == 'Boolean'" id="paramValue" data-ng-model="serviceDetails.paramValue" 
+													    			data-ng-options="paramValue for paramValue in paramValues">
+															</select>
+															<input type="text" ng-if="serviceDetails.paramType == 'Date'" data-datepicker-pop="dd-MMM-yyyy" id="paramValue" data-ng-model="serviceDetails.paramValue"  data-is-open="opened2" min="minDate" max="'2020-06-22'" data-date-disabled="disabled(date, mode)" style="background-color:#FFFFFF;"/>
+					                            		</span>
+				                            		</td>
+				                            	</tr>
+				                          	</table>
+				                      	</div>
+				                  	</div><br/>
+				                  	
+							</fieldset>
+            			</div>
+        			</div>
+        			<!-- ADD Device Tab -->
+        			<div>
+            			<div>
+                			<div class="activation-collapse" data-ng-click="collapseDeviceOthers()">
+                				<strong>Device Info</strong>
+                				<span class="pull-right">
+                					<i class="icon-chevron-up"  data-ng-show="!deviceCollapsed"></i>
+                					<i class="icon-chevron-down"  data-ng-show="deviceCollapsed"></i>
+                				</span>
+                			</div>
+            			</div><br>
+            			<div collapse="deviceCollapsed">
+            				<table>
+							   <tr>
+							      <td>
+							      	<div class="control-group">
+									    <label class="control-label" for="serialNumber">{{'label.serialNumber' | translate }}&nbsp;<span class="required">*</span></label>
+										<div class="controls">
+											<input type="text"  data-ng-model="itemDetail" name="serialNumber" data-typeahead="itemDetail as itemDetail for itemDetail in getData($viewValue)" 
+											autocomplete="off" data-typeahead-on-select="getItemData($item, $model, $label)" data-typeahead-min-length="0"><br/>
+										</div>
+									</div>	
+							      </td>
+							      <td>
+									<div class="control-group">
+										<label class="control-label" for="itemId">{{'label.item' | translate }}&nbsp;<span class="required">*</span></label>
+									    <div class="controls">
+									    	<select id="itemId" data-ng-model="formData.itemId" disabled 
+									    			data-ng-options="itemData.id as itemData.itemCode for itemData in itemDatas">
+											 </select>
+										</div>
+									</div>
+							      </td>
+							   </tr>
+							   <tr ng-if="isPairable">
+							   		<td>
+									  	<div class="control-group">
+						       				<label class="control-label" for="pairableSerialNo">{{'label.serialNumber' | translate}}<span class="required">*</span></label>
+						        			<div class="controls">
+						          				<input type="text" id="pairableSerialNo" name="pairableSerialNo" data-ng-model="pairableSerialNo" autocomplete="off" list ="pairableItemlist" data-ng-change="selectPairableItemDetails(pairableSerialNo)" 
+						          				required />  
+						        			</div>
+						      			</div>
+									   		<datalist id="pairableItemlist">
+						             			<option  data-ng-repeat="pairableItemDetail in pairableItemDetails" value="{{pairableItemDetail}}">
+						      				</datalist>
+							   		</td>
+							   		<td>
+								   		<div class="control-group">
+											<label class="control-label" for="pairableItemId">{{'label.item' | translate }}&nbsp;<span class="required">*</span></label>
+										    <div class="controls">
+										    	<select id="pairableItemId" data-ng-model="pairableFormData.itemId" disabled 
+										    			data-ng-options="pairableItemData.id as pairableItemData.itemCode for pairableItemData in itemDatas">
+												 </select>
+											</div>
+										</div>
+							   		</td>
+							   </tr>
+							   <tr>
+							   	  <td>
+									 <div class="control-group">
+										<label class="control-label">{{ 'label.saleDate' | translate }}&nbsp;<span class="required">*</span></label>
+										<div class="controls">
+										  <input type="text" data-datepicker-pop="dd MMMM yyyy" data-ng-model="date.saleDate" data-is-open="opened2" min="minDate"
+												max="maxDate" data-date-disabled="disabled(date, mode)" style="background-color: #FFFFFF;" readonly />
+										</div>
+									 </div>
+								  </td>
+							   </tr>
+							   <tr>
+								  <td colspan="2" align="left">
+							 		 <br/><div class="control-group">
+							 			<div class="controls">
+							  				<span data-ng-show="PermissionService.showMenu('CREATE_NEWSALE')">
+							  					<input  id="newSale" type="radio" name="saleSelectionType" data-ng-click="selectedNewSale()"/>
+							  					<label class="radioBtnlabel" for="newSale">{{'label.device.newsale' | translate}}</label>&nbsp;&nbsp;
+							  				</span>
+										</div>
+									 </div>
+							 	   </td>
+							    </tr>
+							</table>
+							<table data-ng-show="newSaleType">
+								<tr>
+									<td>
+										<div class="control-group">
+											<label class="control-label" for="discountId">{{'label.discountCode' | translate }}</label>
+											<div class="controls">
+												<select data-ng-model="formData.discountId"
+													data-ng-options="discountMasterData.id as discountMasterData.discountDescription for discountMasterData in discountMasterDatas">
+												</select>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="control-group">
+											<label class="control-label" for="totalPrice">{{'label.totalPrice' | translate }}</label>
+											<div class="controls">
+												<input type="text" id="totalPrice" data-ng-model="formData.totalPrice" style="background-color: #FFFFFF;" readonly/>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr ng-if="isPairable">
+									<td>
+										<div class="control-group">
+											<label class="control-label" for="pairableDiscountId">{{'label.discountCode' | translate }}</label>
+											<div class="controls">
+												<select data-ng-model="pairableFormData.discountId"
+													data-ng-options="discountMasterData.id as discountMasterData.discountDescription for discountMasterData in discountMasterDatas">
+												</select>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="control-group">
+											<label class="control-label" for="totalPrice">{{'label.totalPrice' | translate }}</label>
+											<div class="controls">
+												<input type="text" id="totalPrice" data-ng-model="pairableFormData.totalPrice" style="background-color: #FFFFFF;" readonly/>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</table><br><br><br><br><br><br><br>
+            			</div>
+            		</div>
+            		<!-- Plan Info Tab -->
+            		<div>
+            			<div>
+                			<div class="activation-collapse" data-ng-click="collapsePlanOthers()">
+                				<strong>Plan Info</strong>
+                				<span class="pull-right">
+                					<i class="icon-chevron-up"  data-ng-show="!planCollapsed"></i>
+                					<i class="icon-chevron-down"  data-ng-show="planCollapsed"></i>
+                				</span>
+                			</div>
+            			</div><br>
+            			<div collapse="planCollapsed">
+            				<table>
+            					<tr>
+						             <td>
+						           		<div class="control-group" >
+						                   <label class="control-label" for="paytermCode">{{ 'label.activation.plan' | translate }}</label>
+						                     <div class="controls">
+						                        <select data-ng-model="formData.planCode"  data-ng-options="plandata.id as plandata.planCode for plandata in plandatas" data-ng-change='setBillingFrequency(formData.planCode)'></select>
+						                    </div>
+						                 </div>	
+						             </td>
+						             <td>
+						             	<div class="control-group">
+						             		 <label class="control-label" for="startDate">{{ 'label.order.startdate' | translate }}</label>
+						              		 <div class="controls">
+						                		<input type="text" data-datepicker-pop="dd MMMM yyyy" data-ng-model="start.date" data-is-open="opened" min="minDate" max="maxDate" 
+						                 		   data-date-disabled="disabled(date, mode)" required data-late-Validate style="background-color:#FFFFFF;"  readonly/>
+						             		</div>
+						           		</div>
+						           	</td>
+						    	</tr>
+						    	<tr>
+						             <td>
+						           		<div class="control-group">
+						               		<label class="control-label" for="contractPeriod">{{ 'label.order.contractperiod' | translate }}</label>
+						                	 <div class="controls" ng-hide="formData.isPrepaid == 'Y'">
+						
+						                              <select    ng-model="formData.contractPeriod"  ng-options="subscriptiondata.id as subscriptiondata.Contractdata for subscriptiondata in subscriptiondatas" value="{{billRuleData.id}}"></select>
+						                           </div>
+						                           <div class="controls" ng-show="formData.isPrepaid == 'Y'">
+						                              <select    ng-model="formData.contractPeriod"  ng-options="paytermdata.duration as paytermdata.duration for paytermdata in paytermdatas" value="{{billRuleData.id}}"></select>
+						                           </div>
+						             	</div>
+						             </td>
+						             <td>
+						             	<div class="control-group" data-ng-hide="isPrepaidPlanFormData == 'Y'">
+						                   <label class="control-label" for="paytermCode">{{ 'label.order.billingfrequency' | translate }}</label>
+						                     <div class="controls">
+						                        <select data-ng-model="formData.paytermCode"  data-ng-options="paytermdata.paytermtype as paytermdata.paytermtype for paytermdata in paytermdatas" ></select>
+						                    </div>
+						                 </div>
+						              </td>
+						    	</tr>
+            				</table><br><br><br><br><br><br><br><br>
+            			</div>
+            		</div>
+	            </div>
+	    	</div>
+		</div><br>
+		
+	</fieldset>
+		<div class="offset5">
+        	<a href="#/clients"><button id="cancel" type="reset" class="btn">Cancel</button></a>
+        	<button id="submit" type="submit"  class="btn btn-primary">Save</button>
+        </div>
+	</form>
+</div>

@@ -1,0 +1,81 @@
+<!-- <tab heading="Provisioning Details"  select="getAllProvisioningDetails()">
+			<div class="row-fluid ">
+			<table class="table">
+      		  <thead>
+          		 <tr class="graybg">
+				 	<th>{{'table.heading.id' | translate}}</th>
+					<th>Client Id</th>
+					<th>Request Type</th>
+					<th>Status</th>
+					<th>Recieved Message</th>
+					<th></th>
+					<th></th>
+					<th>Sent Message</th>
+				</tr>
+       		 </thead>
+     		  <tbody>
+          			<tr class="pointer-main" ng-repeat="provisioningdata in provisioningdatas  | filter:filterText">
+					<td class="pointer" >{{provisioningdata.id}}</td>
+					<td class="pointer" >{{provisioningdata.clientId}}</td>  
+					<td class="pointer" >{{provisioningdata.requestType}}</td>
+					<td ng-show="provisioningdata.isProcessed == 'F'" class="pointer" >Failure</td>
+					<td ng-show="provisioningdata.isProcessed == 'Y'" class="pointer" >Success</td>
+					<td ng-show="provisioningdata.isProcessed == 'N'" class="pointer" >Processing</td>
+					<td ng-show="provisioningdata.isProcessed == 'C'" class="pointer" >Success</td>
+					<td class="pointer" >{{provisioningdata.receiveMessage}}</td>
+					  <td><a ng-show="provisioningdata.isProcessed == 'F' " ng-click="reProcess(provisioningdata.id)" popover="Re Process" popover-trigger="mouseenter"><i class="icon-play icon-white"></i></a></td>
+					   <td><a ng-show="provisioningdata.isProcessed == 'F' || provisioningdata.isProcessed == 'N'" ng-click="confirmRequest(provisioningdata.id)" popover="Confirm Request" popover-trigger="mouseenter"><i class="icon-ok icon-white"></i></a></td>
+					<td><button style="padding:3px 5px;" class="btn btn-primary" ng-hide="provisioningdata.requestType=='RETRACK'"
+								ng-click="sentMessagePopup(provisioningdata.id)" data-popover-trigger="mouseenter" data-popover="To See Click on Me">
+								<i class="icon-envelope icon-white"></i></button></td> 
+				</tr>
+        	</tbody>
+    	</table>
+		</div>
+	</tab> -->
+	
+<div  ng-controller="ProvisioningDetailsController">
+	<div>
+	    <ul class="breadcrumb">
+	      <!--   <li><a href="#/system">{{'link.admin.system' | translate}}</a> <span class="divider">/</span></li> -->
+	        <li class="active">{{'label.imports' | translate}}&nbsp;&nbsp;</li>
+	    </ul>
+	    <div class="pull-right">
+	        <a href="#/uploadFile" class="btn btn-primary"><i class="icon-plus icon-white"></i> {{ 'link.create.new.file' | translate }}</a>
+	    </div>
+	</div>
+	<div class="row-fluid">
+	    <input ng-model="filterText" type="text" class="span marginbottom0px">
+		<table class="table">
+	      		  <thead>
+	          		 <tr class="graybg">
+					 	<th>{{'table.heading.id' | translate}}</th>
+						<th>Client Id</th>
+						<th>Request Type</th>
+						<th>Status</th>
+						<th>Recieved Message</th>
+						<th></th>
+						<th></th>
+						<th>Sent Message</th>
+					</tr>
+	       		 </thead>
+	     		  <tbody>
+	          			<tr class="pointer-main" ng-repeat="provisioningdata in provisioningdatas  | filter:filterText">
+						<td class="pointer" >{{provisioningdata.id}}</td>
+						<td class="pointer" >{{provisioningdata.clientId}}</td>  
+						<td class="pointer" >{{provisioningdata.requestType}}</td>
+						<td ng-show="provisioningdata.isProcessed == 'F'" class="pointer" >Failure</td>
+						<td ng-show="provisioningdata.isProcessed == 'Y'" class="pointer" >Success</td>
+						<td ng-show="provisioningdata.isProcessed == 'N'" class="pointer" >Processing</td>
+						<td ng-show="provisioningdata.isProcessed == 'C'" class="pointer" >Success</td>
+						<td class="pointer" >{{provisioningdata.receiveMessage}}</td>
+						  <td><a ng-show="provisioningdata.isProcessed == 'F' " ng-click="reProcess(provisioningdata.id)" popover="Re Process" popover-trigger="mouseenter"><i class="icon-play icon-white"></i></a></td>
+						   <td><a ng-show="provisioningdata.isProcessed == 'F' || provisioningdata.isProcessed == 'N'" ng-click="confirmRequest(provisioningdata.id)" popover="Confirm Request" popover-trigger="mouseenter"><i class="icon-ok icon-white"></i></a></td>
+						<td><button style="padding:3px 5px;" class="btn btn-primary" ng-hide="provisioningdata.requestType=='RETRACK'"
+									ng-click="sentMessagePopup(provisioningdata.id)" data-popover-trigger="mouseenter" data-popover="To See Click on Me">
+									<i class="icon-envelope icon-white"></i></button></td> 
+					</tr>
+	        	</tbody>
+	    	</table>
+		</div>
+</div>

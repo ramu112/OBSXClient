@@ -1,0 +1,44 @@
+<div data-ng-controller="EditChannelMappingController">
+	<div>
+	<ul class="breadcrumb">
+	<li><a href="#/organization">{{'link.admin.organisation' | translate}}</a> <span class="divider">/</span></li>
+	<li><a href="#/broadcasterchannelmapping">{{'label.broadcasterChannelMapping' | translate}}</a> <span class="divider">/</span></li>
+    <li class="active">{{'label.editchannelmapping' | translate}}</li>
+	</ul>
+    </div>
+    <form name="editchannelmappingform" class="form-horizontal well" data-ng-submit="submit()">
+    <div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.channelMapping.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	    </div>
+	    <fieldset>
+        <legend>Edit Channel Mapping</legend>
+         <table>
+         <tr><td>
+			  <div class="control-group">
+			     <label class="control-label" for="serviceId">{{'label.channelmapping.serviceid'| translate }}&nbsp;<span class="required">*</span></label>
+				  <div class="controls">
+				   <select id="serviceId" ng-model="formData.serviceId" ng-options="serviceData.id as serviceData.serviceDescription for serviceData in serviceDatas">
+				   </select> 
+			      </div>
+			 </div>
+		</td></tr>
+		<tr><td>
+			  <div class="control-group">
+			     <label class="control-label" for="channelId">{{'label.channelmapping.channelid'| translate }}&nbsp;<span class="required">*</span></label>
+				  <div class="controls">
+				   <select id="channelId" ng-model="formData.channelId" ng-options="channelData.id as channelData.channelName for channelData in channelDatas">
+				   </select> 
+			      </div>
+			 </div>
+		</td></tr>
+		<tr>
+         <td align="right">
+            <a href="#/broadcasterchannelmapping"><button id="cancel" type="reset" class="btn" ng-click="reset123()">{{'button.cancel'| translate}}</button></a>
+            <button id="submit" type="submit" class="btn btn-primary">{{'button.save'| translate}}</button>
+          </td></tr>
+           </table>
+        </fieldset>
+	 </form>
+</div>

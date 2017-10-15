@@ -1,0 +1,110 @@
+	<div>
+	        <ul class="breadcrumb">
+	          <li><a href="#/organization">{{'link.admin.organisation' | translate}}</a> <span class="divider">/</span></li>
+	          <li><a href="#/broadcasterchannelmapping">{{'label.broadcasterChannelMapping' | translate}}</a> <span class="divider">/</span></li>
+	          <li class="active">{{'label.createchannel' | translate}}</li>
+	        </ul>
+	      </div>
+	      <form name="createchannelform" class="form-horizontal well"  data-ng-controller="CreateChannelController" data-ng-submit="submit()">
+		      <div class="error" data-ng-show="errorStatus || errorDetails">
+			 <label>{{'label.channel.error' | translate}}</label>
+			<label data-ng-show="errorStatus">{{errorStatus}}</label> 
+			 <label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label> 
+		  </div>
+			  <fieldset>
+	          <legend>Create Channel</legend>
+	           <table>
+	           <tr><td>
+             <div class="control-group">
+            <label class="control-label" for="channelName">{{ 'label.channelname' | translate }}&nbsp;<span class="required">*</span></label>
+            <div class="controls">
+              <input type="text" id="channelName" name="channelName" data-ng-model="formData.channelName" required data-ng-minlength=3/>
+                   <span  data-ng-show="createchannelform.channelName.$invalid">
+	              	  <small class="error" data-ng-show="createchannelform.channelName.$error.pattern">alphanumeric and spaces only!</small>
+	                    <small class="error" data-ng-show="createchannelform.channelName.$error.req">
+	                      {{'label.required.field' | translate}}
+	                </small>
+	              <small class="error" data-ng-show="createchannelform.channelName.$error.minlength && !createchannelform.channelName.$error.req">Name is required at least 3 characters</small>
+	           </span>
+            </div>
+          </div>
+          </td></tr>
+          <tr><td>
+             <div class="control-group">
+            <label class="control-label" for="channelCategory">{{ 'label.channelcategory' | translate }}&nbsp;<span class="required">*</span></label>
+            <div class="controls">
+              <input type="text" id="channelCategory" name="channelCategory" data-ng-model="formData.channelCategory" required data-ng-minlength=3/>
+                 <span  data-ng-show="createchannelform.channelCategory.$invalid">
+	              	<small class="error" data-ng-show="createchannelform.channelCategory.$error.pattern">alphanumeric and spaces only!</small>
+	                   <small class="error" data-ng-show="createchannelform.channelCategory.$error.req">
+	                      {{'label.required.field' | translate}}
+	                  </small>
+	                <small class="error" data-ng-show="createchannelform.channelCategory.$error.minlength && !createchannelform.channelCategory.$error.req">Name is required at least 3 characters</small>
+	           </span>
+            </div>
+          </div>
+          </td></tr>
+          <tr><td>
+             <div class="control-group">
+            <label class="control-label" for="channelType">{{ 'label.channeltype' | translate }}&nbsp;<span class="required">*</span></label>
+            <div class="controls">
+              <input type="text" id="channelType" name="channelType" data-ng-model="formData.channelType" required data-ng-minlength=3/>
+                 <span  data-ng-show="createchannelform.channelType.$invalid">
+	               <small class="error" data-ng-show="createchannelform.channelType.$error.pattern">alphanumeric and spaces only!</small>
+	                   <small class="error" data-ng-show="createchannelform.channelType.$error.req">
+	                      {{'label.required.field' | translate}}
+	                   </small>
+	                 <small class="error" data-ng-show="createchannelform.channelType.$error.minlength && !createchannelform.channelType.$error.req">Name is required at least 3 characters</small>
+	              </span>
+            </div>
+          </div>
+          </td></tr>
+          <tr><td>
+           <div class="control-group">
+            <label class="control-label" for="isLocalChannel">{{ 'label.islocalchannel' | translate }}</label>
+             <div class="controls">
+              <label class="checkbox">
+               <input type="checkbox"  id="isLocalChannel" data-ng-model="formData.isLocalChannel"/>
+             </label>
+            </div>
+          </div>
+          </td></tr>
+          <tr><td>
+             <div class="control-group">
+            <label class="control-label" for="isHdChannel">{{ 'label.ishdchannel' | translate }}</label>
+            <div class="controls"> 
+             <label class="checkbox">          
+              <input type="checkbox"  id="isHdChannel" data-ng-model="formData.isHdChannel"/>
+              </label>
+            </div>
+          </div>
+          </td></tr>
+          <tr><td>
+             <div class="control-group">
+            <label class="control-label" for="channelSequence">{{ 'label.channelsequence' | translate }}&nbsp;<span class="required">*</span></label>
+            <div class="controls">
+              <input type="text" id="channelSequence" name="channelSequence" data-ng-model="formData.channelSequence" data-ng-pattern="{{'integer' | CodeValidate}}"><br/>
+             <span data-ng-show="createchannelform.channelSequence.$dirty && createchannelform.channelSequence.$invalid">
+            <small class="error-row">{{'error.not.numeric.validation' | translate}}</small>
+            </span>
+            </div>
+          </div>
+          </td></tr>
+          <tr><td>
+			  <div class="control-group">
+			     <label class="control-label" for="broadcasterId">{{'label.createchannel.broadcasterid'| translate }}&nbsp;<span class="required">*</span></label>
+				  <div class="controls">
+				   <select id="broadcasterId" ng-model="formData.broadcasterId" ng-options="broadcasterData.id as broadcasterData.broadcasterName for broadcasterData in broadcasterDatas">
+				   </select> 
+			      </div>
+			 </div>
+		</td></tr>
+		     <tr><td align="right" colspan="1">
+	          <div>
+	            <a href="#/broadcasterchannelmapping"><button id="cancel" type="reset" class="btn" ng-click="reset123()">{{'button.cancel'| translate}}</button></a>
+	            <button id="submit" type="submit" class="btn btn-primary">{{'button.save'| translate}}</button>
+	          </div>
+	          </td></tr>  
+		  </table>
+        </fieldset>
+      </form>

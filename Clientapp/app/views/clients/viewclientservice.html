@@ -1,0 +1,98 @@
+<div data-ng-controller="ViewClientServiceController"> 
+  <div class="paddedbottom10">
+  		<ul class="breadcrumb">
+	    	<li>
+		 	   <table>
+		        	<tr>
+				        <td style="width:80px">
+				         	<img data-ng-hide="imagePresent" src="../app/images/blank_avatar.jpg" alt="Avatar" width="40">
+				          	<img data-ng-show="imagePresent" src="{{image}}" alt="Avatar" width="40">
+				        </td>
+				        <td style="width:180px">
+				            <small style="color:black;">{{displayName}}</small>
+				            &nbsp;
+				            <i class="icon-circle {{statusActive | StatusLookup}}"></i>
+				        </td>
+		       			<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        		<td><small>{{'label.accountno' | translate}}&nbsp;<strong>{{accountNo}}</strong></small></td>
+					        	</tr>
+					        	<tr>
+					        	    <td><small>{{'label.cellphone' | translate}}&nbsp;<strong>{{phone}}</strong></small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        		<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        	   <td><i class="icon-building"></i><small>{{'label.office' | translate}}&nbsp;"<strong>{{officeName}}</strong>"</small></td>
+					        	</tr>
+					        	<tr>
+					        	<td><small>{{'label.device#' | translate}} <strong>{{hwSerialNumber}}</strong></small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        		<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        		<td><small>{{'link.clienttype' | translate}}&nbsp;"<strong>{{categoryType}}</strong>"</small></td>
+					        	</tr>
+					        	<tr>
+					        		<td><small>{{'label.balance' | translate}}&nbsp;<strong>{{balanceAmount}}</strong>&nbsp;{{currency}} </small></td>
+					        		<td class="paddedleft0" data-ng-show="walletConfig"><small>[Wallet&nbsp;<strong>{{walletAmount}}</strong>&nbsp;{{currency}}]</small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        	</tr>
+		        </table>
+	        </li>
+		</ul>
+		<ul class="breadcrumb">
+			<li><a href="#/clients">{{'link.clients' | translate}}</a> <span class="divider">/</span></li>
+			<li><a href="#/viewclient/{{clientId}}">{{'link.view.client' | translate}}</a> <span class="divider">/</span></li>
+			<li class="active">{{'link.viewclientservice' | translate}}</li>
+		</ul>
+	</div><br>
+	<div class="row paddedleft">
+		<legend>Client Service</legend>
+		<table width="100%">
+			<tr>
+				<td>{{'label.servicecode' | translate }}</td>
+				<td>{{clientserviceId.serviceCode}}</td>
+			</tr>
+			<tr>
+				<td>{{'label.servicedescription' | translate }}</td>
+				<td>{{clientserviceId.serviceDescription}}</td>
+			</tr>
+			<tr>
+				<td>{{'label.status' | translate }}</td>
+				<td>{{clientserviceId.status}}</td>
+			</tr>
+		</table>
+	</div><br>
+	<table class="table">
+        <thead>
+            <tr class="graybg">
+                <th>{{ 'table.heading.id' | translate }}</th>
+                <th>{{ 'table.parametername' | translate }}</th>
+                <th>{{ 'table.paramValue' | translate }}</th>
+                <th>{{ 'table.status' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="ServiceParameterDatas in ServiceParameterData | filter:filterText">
+                       
+                <td>{{ServiceParameterDatas.id}}</td>        
+                <td>{{ServiceParameterDatas.paramName}}</td>  
+                <td ng-if="ServiceParameterDatas.type">{{ServiceParameterDatas.type}}</td>
+				<td ng-if="!ServiceParameterDatas.type">{{ServiceParameterDatas.paramValue}}</td>        
+                <td>{{ServiceParameterDatas.status}}</td>                
+            </tr>
+        </tbody>
+    </table>
+    
+    </div>

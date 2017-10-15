@@ -1,0 +1,60 @@
+<div data-ng-controller="ViewChannelController">
+	<div class="paddedbottom10">
+		<ul class="breadcrumb">
+			<li><a href="#/organization">{{'link.admin.organisation' | translate}}</a> <span class="divider">/</span></li>
+			<li><a href="#/broadcasterchannelmapping" ng-click="gobroadcasterchannelmapping()">{{'label.broadcasterChannelMapping' | translate}}</a> <span class="divider">/</span></li>
+	        <li class="active">{{'label.viewChannel' | translate }}&nbsp;&nbsp;</li>
+	    </ul>
+	    <div class="pull-right">
+	      <div class="btn-group">
+	          <a data-ng-show="PermissionService.showMenu('UPDATE_CHANNEL')" href="#/editchannel/{{channel.id}}" class="btn btn-primary"><i class="icon-edit icon-white"></i> Edit</a>
+	         <a data-ng-show="PermissionService.showMenu('DELETE_CHANNEL')" data-ng-click="deleteChannel()" class="btn btn-primary"><i class="icon-trash icon-white"></i> Delete</a>
+	      </div>
+	    </div>
+	</div>
+	<div class="row paddedleft" >
+		<table style="width:100%;">
+			<tr>
+				<td width="20%">{{ 'label.channelname' | translate }}</td>
+				<td width="70%">{{channel.channelName}}</td>
+			</tr>
+			<tr>
+				<td>{{ 'label.channelcategory' | translate }}</td>
+				<td>{{channel.channelCategory}}</td>
+			</tr>
+			<tr>
+				<td>{{ 'label.channeltype' | translate }}</td>
+				<td>{{channel.channelType}}</td>
+			</tr>
+			<tr>
+				<td>{{ 'label.islocalchannel' | translate }}</td>
+				<td>{{channel.isLocalChannel}}</td>
+			</tr>
+			<tr>
+				<td>{{ 'label.ishdchannel' | translate }}</td>
+				<td>{{channel.isHdChannel}}</td>
+			</tr>
+			<tr>
+				<td>{{ 'label.channelsequence' | translate }}</td>
+				<td>{{channel.channelSequence}}</td>
+			</tr>
+			<tr>
+				<td>{{ 'label.broadcastername' | translate }}</td>
+				<td>{{channel.broadcasterName}}</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/ng-template" id="channel.html">
+                    <div class="modal-header silver">
+                        <h3 class="bolder">Delete Channel</h3>
+                    </div>
+                    <div class="modal-body style="height:60px;">
+                       <h4>Are you sure?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" ng-click="cancel()">{{'button.cancel' | translate}}</button>
+                        <button class="btn btn-primary" ng-click="approve()">{{'label.confirm' | translate}}</button>
+                    </div>
+      </script>
+	
+</div>

@@ -1,0 +1,62 @@
+<div data-ng-controller="BroadCasterController">
+	<div>
+	    <ul class="breadcrumb">
+	        <li><a href="#/organization">{{'link.admin.organisation' | translate}}</a> <span class="divider">/</span></li>
+	        <li class="active">{{'label.broadcaster' | translate}}&nbsp;&nbsp;</li>
+	    </ul>
+    </div>
+	<div class="pull-right">
+        <a data-ng-show="PermissionService.showMenu('CREATE_BROADCASTER')" href="#/createbroadcaster" class="btn btn-primary"><i class="icon-plus icon-white"></i> {{ 'link.create.new.broadcaster' | translate }}</a>
+    </div>
+	<div class="row-fluid">
+	    <input data-ng-model="filterText" type="text" class="span marginbottom0px" placeholder="{{'placeholder.searchbar' | translate}}">
+		<table class="table">
+	        <thead>
+	            <tr class="graybg">
+	                <th>{{ 'table.broadcastercode' | translate }}</th>
+	                <th>{{ 'table.broadcastername' | translate }}</th>
+	                <th>{{ 'table.contactmobile' | translate }}</th>
+	                <th>{{ 'table.contactnumber' | translate }}</th>
+	                <th>{{ 'table.contactname' | translate }}</th>
+	                <th>{{ 'table.email' | translate }}</th>
+	                <th>{{ 'table.address' | translate }}</th>
+	                <th>{{ 'table.pin' | translate }}</th>
+	                <th>{{ 'table.actions' | translate }}</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr class="pointer-main" data-ng-repeat="broadcaster in broadcasters.currentPageItems | filter:filterText" select="getAllbroadCaster()">
+	                <td class="pointer"  data-ng-click="routeTo(broadcaster.id)">{{broadcaster.broadcasterCode}}</td>            
+	                <td class="pointer"  data-ng-click="routeTo(broadcaster.id)">{{broadcaster.broadcasterName}}</td>        
+	                <td class="pointer"  data-ng-click="routeTo(broadcaster.id)">{{broadcaster.contactMobile}}</td>
+	                <td class="pointer"  data-ng-click="routeTo(broadcaster.id)">{{broadcaster.contactNumber}}</td>            
+	                <td class="pointer"  data-ng-click="routeTo(broadcaster.id)">{{broadcaster.contactName}}</td>        
+	                <td class="pointer"  data-ng-click="routeTo(broadcaster.id)">{{broadcaster.email}}</td>
+	                <td class="pointer"  data-ng-click="routeTo(broadcaster.id)">{{broadcaster.address}}</td>        
+	                <td class="pointer"  data-ng-click="routeTo(broadcaster.id)">{{broadcaster.pin}}</td>
+	                
+	                
+	                
+	                <td class="pointer">
+	                 <a data-ng-show="PermissionService.showMenu('UPDATE_BROADCASTER')" href="#/editbroadcaster/{{broadcaster.id}}"
+	                    data-popover="Edit Broadcaster" data-popover-trigger="mouseenter" class="icon-edit"></a>&nbsp;
+		             <a data-ng-show="PermissionService.showMenu('DELETE_BROADCASTER')" data-ng-click="deleteBroadcaster(broadcaster.id)"
+		                data-popover="Delete Broadcaster" data-popover-trigger="mouseenter"><i class="icon-remove icon-white"></i></a></td>         
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+<script type="text/ng-template" id="broadcaster.html">
+                    <div class="modal-header silver">
+                        <h3 class="bolder">Delete BroadCaster</h3>
+                    </div>
+                    <div class="modal-body modal-small">
+                       <h4>Are you sure?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" ng-click="cancel()">{{'button.cancel' | translate}}</button>
+                        <button class="btn btn-primary" ng-click="approve()">{{'label.confirm' | translate}}</button>
+                    </div>
+</script>
+
+</div>

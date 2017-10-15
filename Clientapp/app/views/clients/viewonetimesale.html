@@ -1,0 +1,87 @@
+<div data-ng-controller="ViewClientOneTimeSaleController"> 
+  <div class="paddedbottom10">
+  		<ul class="breadcrumb">
+	    	<li>
+		 	   <table>
+		        	<tr>
+				        <td style="width:80px">
+				         	<img data-ng-hide="imagePresent" src="../app/images/blank_avatar.jpg" alt="Avatar" width="40">
+				          	<img data-ng-show="imagePresent" src="{{image}}" alt="Avatar" width="40">
+				        </td>
+				        <td style="width:180px">
+				            <small style="color:black;">{{displayName}}</small>
+				            &nbsp;
+				            <i class="icon-circle {{statusActive | StatusLookup}}"></i>
+				        </td>
+		       			<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        		<td><small>{{'label.accountno' | translate}}&nbsp;<strong>{{accountNo}}</strong></small></td>
+					        	</tr>
+					        	<tr>
+					        	    <td><small>{{'label.cellphone' | translate}}&nbsp;<strong>{{phone}}</strong></small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        		<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        	   <td><i class="icon-building"></i><small>{{'label.office' | translate}}&nbsp;"<strong>{{officeName}}</strong>"</small></td>
+					        	</tr>
+					        	<tr>
+					        	<td><small>{{'label.device#' | translate}} <strong>{{hwSerialNumber}}</strong></small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        		<td><small style="font-size:30px;">|</small></td>
+				        <td style="width:240px">
+					        <table>
+					        	<tr>
+					        		<td><small>{{'link.clienttype' | translate}}&nbsp;"<strong>{{categoryType}}</strong>"</small></td>
+					        	</tr>
+					        	<tr>
+					        		<td><small>{{'label.balance' | translate}}&nbsp;<strong>{{balanceAmount}}</strong>&nbsp;{{currency}} </small></td>
+					        		<td class="paddedleft0" data-ng-show="walletConfig"><small>[Wallet&nbsp;<strong>{{walletAmount}}</strong>&nbsp;{{currency}}]</small></td>
+					        	</tr>
+					        </table>
+				        </td>
+		        	</tr>
+		        </table>
+	        </li>
+		</ul>
+		<ul class="breadcrumb">
+			<li><a href="#/clients">{{'link.clients' | translate}}</a> <span class="divider">/</span></li>
+			<li><a href="#/viewclient/{{clientId}}">{{'link.view.client' | translate}}</a> <span class="divider">/</span></li>
+			<li class="active">{{'link.allocationdetails' | translate}}</li>
+		</ul>
+	    <div class="pull-right">
+	      <div class="btn-group">
+	          <a href="#/allocatehardwareonetimesale/{{id}}/{{clientId}}" ng-show="(isDefault == 'false' )&&(readAllocation&&createAllocation)" class="btn btn-primary"><i class="icon-edit icon-white"></i>Allocate Hardware</a>	        
+	      </div>
+	    </div>
+	</div>
+	<!-- <h3>{{id}}</h3> -->
+	<table class="table">
+		<tr><td><h3>{{id}}</h3> </td></tr>
+        <thead>
+            <tr class="graybg">
+                <th>{{ 'table.heading.id' | translate }}</th>
+                <th>{{ 'table.heading.itemdescription' | translate }}</th>
+                <th>{{ 'table.heading.serialnumber' | translate }}</th>
+                <th>{{ 'table.heading.allocationdetails' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="onetimesales in onetimesales | filter:filterText">
+                       
+                <td>{{onetimesales.id}}</td>        
+                <td>{{onetimesales.itemDescription}}</td>  
+                <td>{{onetimesales.serialNo}}</td>        
+                <td>{{onetimesales.allocationDate | DateFormat}}</td>                
+            </tr>
+        </tbody>
+    </table>
+    
+    </div>

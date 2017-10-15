@@ -1,0 +1,59 @@
+<div data-ng-controller="ChannelController">
+	<div>
+	    <ul class="breadcrumb">
+	        <li><a href="#/organization">{{'link.admin.organisation' | translate}}</a> <span class="divider">/</span></li>
+	        <li><a href="#/broadcasterchannelmapping">{{'label.broadcasterChannelMapping' | translate}}</a> <span class="divider">/</span></li>
+	        <li class="active">{{'label.channel' | translate}}&nbsp;&nbsp;</li>
+	    </ul>
+	    </div>
+	    <div class="pull-right">
+        <a data-ng-show="PermissionService.showMenu('CREATE_CHANNEL')" href="#/createChannel" class="btn btn-primary"><i class="icon-plus icon-white"></i> {{ 'link.create.new.channel' | translate }}</a>
+        </div>
+	<div class="row-fluid">
+	    <input data-ng-model="filterText" type="text" class="span marginbottom0px" placeholder="{{'placeholder.searchbar' | translate}}">
+		<table class="table">
+	        <thead>
+	            <tr class="graybg">
+	                <th>{{ 'table.channelname' | translate }}</th>
+	                <th>{{ 'table.channelcategory' | translate }}</th>
+	                <th>{{ 'table.channeltype' | translate }}</th>
+	                <th>{{ 'table.islocalchannel' | translate }}</th>
+	                <th>{{ 'table.ishdchannel' | translate }}</th>
+	                <th>{{ 'table.channelsequence' | translate }}</th>
+	                <th>{{ 'table.broadcastername' | translate }}</th>
+	                <th>{{ 'table.actions' | translate }}</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr class="pointer-main" data-ng-repeat="channel in channels.currentPageItems | filter:filterText" select="getAllchannel()">
+	                <td class="pointer"  data-ng-click="routeTo(channel.id)">{{channel.channelName}}</td>            
+	                <td class="pointer"  data-ng-click="routeTo(channel.id)">{{channel.channelCategory}}</td>        
+	                <td class="pointer"  data-ng-click="routeTo(channel.id)">{{channel.channelType}}</td>
+	                <td class="pointer"  data-ng-click="routeTo(channel.id)">{{channel.isLocalChannel}}</td>
+	                <td class="pointer"  data-ng-click="routeTo(channel.id)">{{channel.isHdChannel}}</td>
+	                <td class="pointer"  data-ng-click="routeTo(channel.id)">{{channel.channelSequence}}</td>
+	                <td class="pointer"  data-ng-click="routeTo(channel.id)">{{channel.broadcasterName}}</td>
+	                
+	                <td class="pointer">
+	                 <a data-ng-show="PermissionService.showMenu('UPDATE_CHANNEL')" href="#/editchannel/{{channel.id}}"
+	                    data-popover="Edit Channel" data-popover-trigger="mouseenter" class="icon-edit"></a>&nbsp;
+		             <a data-ng-show="PermissionService.showMenu('DELETE_CHANNEL')" data-ng-click="deleteChannel(channel.id)"
+		                data-popover="Delete Channel" data-popover-trigger="mouseenter"><i class="icon-remove icon-white"></i></a></td>         
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+		<script type="text/ng-template" id="channel.html">
+                    <div class="modal-header silver">
+                        <h3 class="bolder">Delete Channel</h3>
+                    </div>
+                    <div class="modal-body style="height:60px;">
+                       <h4>Are you sure?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" ng-click="cancel()">{{'button.cancel' | translate}}</button>
+                        <button class="btn btn-primary" ng-click="approve()">{{'label.confirm' | translate}}</button>
+                    </div>
+      </script>
+	
+ </div>
